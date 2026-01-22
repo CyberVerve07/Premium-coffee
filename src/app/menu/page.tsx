@@ -74,6 +74,44 @@ export default function MenuPage() {
     },
   ];
 
+  const sandwichCategories = [
+    {
+      name: "Artisanal Paninis",
+      items: [
+        { name: "Pesto Chicken", desc: "Grilled breast, basil pesto, mozzarella, sun-dried tomatoes", price: "₹420" },
+        { name: "Truffle Mushroom", desc: "Wild mushrooms, truffle oil, swiss cheese, arugula", price: "₹380" },
+        { name: "Roast Beef & Horseradish", desc: "Slow-roasted beef, sharp cheddar, caramelized onions", price: "₹480" },
+        { name: "Caprese Melt", desc: "Buffalo mozzarella, heirloom tomatoes, balsamic glaze", price: "₹350" },
+      ],
+    },
+    {
+      name: "Signature Sourdough",
+      items: [
+        { name: "Avocado & Poached Egg", desc: "Smashed hass avocado, chili flakes, sourdough toast", price: "₹380" },
+        { name: "Smoked Salmon Luxe", desc: "Cream cheese, capers, red onion, dill on rye sourdough", price: "₹520" },
+        { name: "Prosciutto & Fig", desc: "Parma ham, honeyed figs, goat cheese, balsamic drizzle", price: "₹450" },
+        { name: "Mediterrean Veggie", desc: "Roasted peppers, hummus, feta, kalamata olives", price: "₹340" },
+      ],
+    },
+    {
+      name: "Warm Savory Toasts",
+      items: [
+        { name: "Croque Monsieur Noir", desc: "Smoked ham, gruyère, béchamel, toasted brioche", price: "₹400" },
+        { name: "Triple Cheese Garlic", desc: "Aged cheddar, parmesan, mozzarella, garlic butter", price: "₹320" },
+        { name: "Spicy Paneer Tikka", desc: "Marinated cottage cheese, mint chutney, masala onion", price: "₹360" },
+      ],
+    },
+  ];
+
+  const getActiveCategories = () => {
+    switch (activeTab) {
+      case "coffee": return coffeeCategories;
+      case "desserts": return dessertCategories;
+      case "sandwiches": return sandwichCategories;
+      default: return coffeeCategories;
+    }
+  };
+
   return (
     <div className="min-h-screen pt-32 pb-20">
       <section className="px-6 mb-20 relative">
@@ -88,10 +126,10 @@ export default function MenuPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-center gap-4 mb-20">
+        <div className="flex flex-wrap justify-center gap-4 mb-20">
           <button 
             onClick={() => setActiveTab("coffee")}
-            className={`px-10 py-4 text-xs tracking-[0.3em] uppercase font-bold transition-all duration-500 rounded-sm border ${
+            className={`px-8 py-4 text-[10px] md:text-xs tracking-[0.3em] uppercase font-bold transition-all duration-500 rounded-sm border ${
               activeTab === "coffee" 
                 ? "bg-amber-500 text-black border-amber-500 shadow-[0_0_30px_rgba(212,175,55,0.3)]" 
                 : "text-amber-100/40 border-amber-900/30 hover:border-amber-500/50 hover:text-amber-400"
@@ -100,8 +138,18 @@ export default function MenuPage() {
             Coffee Selection
           </button>
           <button 
+            onClick={() => setActiveTab("sandwiches")}
+            className={`px-8 py-4 text-[10px] md:text-xs tracking-[0.3em] uppercase font-bold transition-all duration-500 rounded-sm border ${
+              activeTab === "sandwiches" 
+                ? "bg-amber-500 text-black border-amber-500 shadow-[0_0_30px_rgba(212,175,55,0.3)]" 
+                : "text-amber-100/40 border-amber-900/30 hover:border-amber-500/50 hover:text-amber-400"
+            }`}
+          >
+            Gourmet Sandwiches
+          </button>
+          <button 
             onClick={() => setActiveTab("desserts")}
-            className={`px-10 py-4 text-xs tracking-[0.3em] uppercase font-bold transition-all duration-500 rounded-sm border ${
+            className={`px-8 py-4 text-[10px] md:text-xs tracking-[0.3em] uppercase font-bold transition-all duration-500 rounded-sm border ${
               activeTab === "desserts" 
                 ? "bg-amber-500 text-black border-amber-500 shadow-[0_0_30px_rgba(212,175,55,0.3)]" 
                 : "text-amber-100/40 border-amber-900/30 hover:border-amber-500/50 hover:text-amber-400"
@@ -112,7 +160,7 @@ export default function MenuPage() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-10 transition-all duration-700">
-          {(activeTab === "coffee" ? coffeeCategories : dessertCategories).map((category, catIdx) => (
+          {getActiveCategories().map((category, catIdx) => (
             <div 
               key={category.name} 
               className="card-3d relative p-8 md:p-12 rounded-xl overflow-hidden animate-rise"
